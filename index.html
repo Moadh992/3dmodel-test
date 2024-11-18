@@ -8,8 +8,15 @@
     <link type="text/css" href="./styles.css" rel="stylesheet"/>
   </head>
   <body>
-    <!-- <model-viewer> HTML element -->
-    <model-viewer src="alpha-blend-litmus.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="1">
+    <!-- Model Viewer with 3D model and interactive controls -->
+    <model-viewer id="modelViewer" 
+                  src="alpha-blend-litmus.glb" 
+                  ar 
+                  ar-modes="webxr scene-viewer quick-look" 
+                  camera-controls 
+                  tone-mapping="neutral" 
+                  poster="poster.webp" 
+                  shadow-intensity="1">
       <div class="progress-bar hide" slot="progress-bar">
           <div class="update-bar"></div>
       </div>
@@ -17,11 +24,29 @@
           View in your space
       </button>
       <div id="ar-prompt">
-          <img src="ar_hand_prompt.png">
+          <img src="ar_hand_prompt.png" alt="AR Prompt">
       </div>
     </model-viewer>  
+    
+    <!-- Lighting control checkbox -->
+    <label for="neutral">Neutral Lighting: </label>
+    <input id="neutral" type="checkbox" checked="true">
+
     <script src="script.js"></script>
     <!-- Loads <model-viewer> for browsers: -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+
+    <script>
+      (() => {
+        const modelViewer = document.querySelector('#modelViewer');
+        const checkbox = document.querySelector('#neutral');
+
+        // Event listener to change environment lighting based on checkbox state
+        checkbox.addEventListener('change', () => {
+          modelViewer.environmentImage = checkbox.checked ? '' : 'legacy';
+        });
+      })();
+    </script>
   </body>
 </html>
+
